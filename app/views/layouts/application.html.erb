@@ -5,11 +5,53 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' %>
+    <%= stylesheet_link_tag 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+
+    <%= javascript_include_tag 'https://code.jquery.com/jquery-3.3.1.min.js' %>
+    <%= javascript_include_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' %>
+    <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js' %>
+    <%= javascript_include_tag 'https://use.fontawesome.com/releases/v5.0.13/js/all.js' %>
+    <%= javascript_pack_tag 'application' %>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="clearfix topbar">
+      <div class="pull-left">
+        <div class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-lg fa-bars"></i></a>
+          <ul class="dropdown-menu" id="main-nav">
+
+          </ul>
+        </div>
+      </div>
+      <div class="pull-right text-right">
+        <% if user_signed_in? %>
+          <div class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= current_user.username %> <span class="caret"></span></a>
+            <ul class="dropdown-menu" id="right-nav">
+              <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete %></li>
+              <li><%= link_to 'Edit account details', edit_user_registration_path %></li>
+            </ul>
+          </div>
+        <% else %>
+          <%= link_to new_user_registration_path do %>
+            <i class="fa fa-user-plus"></i> Sign up
+          <% end %>
+          <%= link_to new_user_session_path do %>
+            <i class="fa fa-sign-in-alt"></i> Sign in
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <main>
+      <div class="col-md-10 col-md-offset-1">
+        <% flash.each do |k, v| %>
+          <div class="alert alert-<%= k %>"><%= v %></div>
+        <% end %>
+        <%= yield %>
+      </div>
+    </main>
   </body>
 </html>
