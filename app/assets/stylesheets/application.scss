@@ -13,3 +13,23 @@
  *= require_tree .
  *= require_self
  */
+
+@import 'variables';
+
+.topbar {
+    background: $primary;
+    color: white;
+    padding: 1em;
+    border-bottom: 1px solid darken($primary, 15%);
+    margin-bottom: 1em;
+
+    a, a:visited, a:hover, a:active {
+        color: white;
+        margin: 0 1em;
+    }
+
+    .dropdown-menu a, .dropdown-menu a:visited, .dropdown-menu a:hover, .dropdown-menu a:active {
+        color: $key;
+        margin: unset;
+    }
+}
