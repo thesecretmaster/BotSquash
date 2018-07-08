@@ -5,12 +5,14 @@ AllCops:
     - '**/config.ru'
   Exclude:
     - 'node_modules/**/*'
+    - 'bin/**/*'
+    - 'db/schema.rb'
 
 Style/Documentation:
   Enabled: false
 
 Metrics/LineLength:
-  Max: 100
+  Max: 120
   Exclude:
     - 'config/**/*'
     - 'db/migrate/*'
