@@ -1,0 +1,39 @@
+AllCops:
+  DisplayCopNames: true
+  Include:
+    - '**/Rakefile'
+    - '**/config.ru'
+  Exclude:
+    - 'node_modules/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 100
+  Exclude:
+    - 'config/**/*'
+    - 'db/migrate/*'
+    - 'db/schema.rb'
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - 'app/models/**/*'
+    - 'test/models/**/*'
+    - 'test/test_helper.rb'
+
+Style/FileName:
+  Exclude:
+    - 'Gemfile'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'db/schema.rb'
