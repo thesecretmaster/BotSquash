@@ -1,6 +1,6 @@
 class BotsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_bot, only: [:show, :edit, :update, :destroy]
+  before_action :set_bot, only: %i[show edit update destroy]
 
   # GET /bots
   # GET /bots.json
@@ -10,8 +10,7 @@ class BotsController < ApplicationController
 
   # GET /bots/1
   # GET /bots/1.json
-  def show
-  end
+  def show; end
 
   # GET /bots/new
   def new
@@ -19,8 +18,7 @@ class BotsController < ApplicationController
   end
 
   # GET /bots/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /bots
   # POST /bots.json
@@ -43,7 +41,7 @@ class BotsController < ApplicationController
   def update
     respond_to do |format|
       if @bot.update(bot_params)
-        format.js { }
+        format.js {}
         format.html { redirect_to @bot, notice: 'Bot was successfully updated.' }
         format.json { render :show, status: :ok, location: @bot }
       else
@@ -64,13 +62,14 @@ class BotsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_bot
-      @bot = Bot.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def bot_params
-      params.fetch(:bot).permit(:type_id, :username)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_bot
+    @bot = Bot.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def bot_params
+    params.fetch(:bot).permit(:type_id, :username)
+  end
 end

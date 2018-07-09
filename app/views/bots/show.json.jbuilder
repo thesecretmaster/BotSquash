@@ -1,1 +1,1 @@
-json.partial! "bots/bot", bot: @bot
+json.partial! 'bots/bot', bot: @bot

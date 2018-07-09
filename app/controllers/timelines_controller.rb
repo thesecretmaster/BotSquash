@@ -1,5 +1,5 @@
 class TimelinesController < ApplicationController
-  before_action :set_timeline, only: [:show, :edit, :update, :destroy]
+  before_action :set_timeline, only: %i[show edit update destroy]
 
   # GET /timelines
   # GET /timelines.json
@@ -9,8 +9,7 @@ class TimelinesController < ApplicationController
 
   # GET /timelines/1
   # GET /timelines/1.json
-  def show
-  end
+  def show; end
 
   # GET /timelines/new
   def new
@@ -18,8 +17,7 @@ class TimelinesController < ApplicationController
   end
 
   # GET /timelines/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /timelines
   # POST /timelines.json
@@ -62,13 +60,14 @@ class TimelinesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_timeline
-      @timeline = Timeline.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def timeline_params
-      params.fetch(:timeline, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_timeline
+    @timeline = Timeline.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def timeline_params
+    params.fetch(:timeline, {})
+  end
 end

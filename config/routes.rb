@@ -19,5 +19,4 @@ Rails.application.routes.draw do
 
   get '/no1', to: 'bots#index', as: :new_network_membership
   get '/no2', to: 'bots#index', as: :new_hashtag
-
 end
