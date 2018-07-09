@@ -18,17 +18,17 @@
 
   <body>
     <div class="clearfix topbar">
-      <div class="pull-left">
+      <div class="tb-left">
         <div class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-lg fa-bars"></i></a>
           <ul class="dropdown-menu" id="main-nav">
-
+            <li><%= link_to 'Home', root_url %></li>
           </ul>
         </div>
-        <%= link_to "Home", root_url %>
       </div>
-      <div class="pull-right text-right">
+      <div class="tb-right text-right">
         <% if user_signed_in? %>
+          <%= link_to 'Report Suspected Bot', new_bot_path, class: 'btn btn-danger nav-item' %>
           <div class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= current_user.username %> <span class="caret"></span></a>
             <ul class="dropdown-menu" id="right-nav">
@@ -36,7 +36,6 @@
               <li><%= link_to 'Edit account details', edit_user_registration_path %></li>
             </ul>
           </div>
-          <%= button_to 'New Bot', new_bot_path, method: :get, class: 'btn btn-danger nav-item' %>
         <% else %>
           <%= link_to new_user_registration_path do %>
             <i class="fa fa-user-plus"></i> Sign up
