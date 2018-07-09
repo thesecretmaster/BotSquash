@@ -17,6 +17,9 @@ Rails.application.routes.draw do
     post '', to: 'bots#create'
   end
 
+  # TODO: Stop cheating
   get '/no1', to: 'bots#index', as: :new_network_membership
   get '/no2', to: 'bots#index', as: :new_hashtag
+  get '/no3', to: 'bots#index', as: :add_hashtag_to_bot
+  get '/no4', to: 'bots#index', as: :add_network_membership_to_bot
 end

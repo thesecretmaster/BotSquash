@@ -45,11 +45,11 @@ $("#editBotModalForm").on('ajax:success', function(e, data, status, xhr){
 });
 
 // TODO: This function is wrong. It should be called as a callback to the form submission
-// $(document).on('hide.bs.modal', '#editBotModal', function(e) {
-//   var username = $("#editBotModal form input[name=bot\\[username\\]]").val();
-//   var id = $("#editBotModal form input[name=id]").val();
-//   $("span[data-bot-id="+id+"]").text(username);
-// });
+$(document).on('hide.bs.modal', '#editBotModal', function(e) {
+  var username = $("#editBotModal form input[name=bot\\[username\\]]").val();
+  var id = $("#editBotModal form input[name=id]").val();
+  $("span[data-bot-id="+id+"]").text(username);
+});
 
 $(document).on('show.bs.modal', '#botInfoModal', function(e) {
   var ele = $(e.relatedTarget);
@@ -58,7 +58,6 @@ $(document).on('show.bs.modal', '#botInfoModal', function(e) {
   var twitter_username = ele.data('twttr');
   $("#botInfoModal .username").text(username);
   // TODO: Fetch further bot info async
-  // Maybe a window from the twitter API
   twttr.widgets.createTimeline(
     {
       sourceType: "profile",
@@ -67,3 +66,19 @@ $(document).on('show.bs.modal', '#botInfoModal', function(e) {
     document.getElementById("botInfoModal").getElementsByClassName("tweet-container")[0]
   );
 })
+
+// TODO: On form submission, add the hashtag to the page
+$(document).on('show.bs.modal', '#newHashtagModal', function(e) {
+  var ele = $(e.relatedTarget);
+  var bot_id = ele.data('bot-id');
+  console.log(bot_id);
+  $("#newHashtagModal form input[name=bot_id]").val(bot_id);
+});
+
+// TODO: On form submission, add the network membership to the page
+$(document).on('show.bs.modal', '#newNetworkMembershipModal', function(e) {
+  var ele = $(e.relatedTarget);
+  var bot_id = ele.data('bot-id');
+  console.log(bot_id);
+  $("#newNetworkMembershipModal form input[name=bot_id]").val(bot_id);
+});

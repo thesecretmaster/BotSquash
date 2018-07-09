@@ -13,6 +13,7 @@
   </thead>
 
   <tbody>
+    <!-- Really, all of these should be links that turn into modals if JS is enabled. (Also, see comment near modals) -->
     <% @bots.each do |bot| %>
       <tr>
         <td>
@@ -30,13 +31,15 @@
           <span>
             <%= raw(bot.hashtags.map { |ht| link_to "##{ht.name}", nw }.join(', ')) %>
           </span>
-          <%= link_to '+add', new_hashtag_path(bot: bot) %>
+          <span data-toggle="modal" data-target="#newHashtagModal" data-bot-id="<%= bot.id %>">+add</span>
+          <!-- <%= link_to '+add', new_hashtag_path(bot: bot) %> -->
         </td>
         <td>
           <span>
             <%= raw(bot.networks.map { |nw| link_to "##{nw.id}", nw }.join(', ')) %>
           </span>
-          <%= link_to '+add', new_network_membership_path(bot: bot) %>
+          <span data-toggle="modal" data-target="#newNetworkMembershipModal" data-bot-id="<%= bot.id %>">+add</span>
+          <!-- <%= link_to '+add', new_network_membership_path(bot: bot) %> -->
         </td>
         <td><%= link_to "actions", timeline_path(id: 1) %></td>
       </tr>
@@ -44,6 +47,7 @@
   </tbody>
 </table>
 
+<!-- Really, these modals should `render` from other pages -->
 
 <div class="modal fade" id="editBotModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -96,6 +100,72 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="newHashtagModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create Hashtag</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <%= form_tag add_hashtag_to_bot_path, remote: true, authenticity_token: true, id: 'newHashtagModalForm' do %>
+        <div class="modal-body">
+          <%= hidden_field_tag 'bot_id' %>
+          <h3>Add existing hashtag to bot</h3>
+          <div class="form-group">
+            <%= label_tag 'hashtag[id]', "Hashtag:" %>
+            <%= select_tag 'hashtag[id]', options_from_collection_for_select(Hashtag.all, :id, :name), include_blank: true, class: 'form-control select2' %>
+          </div>
+          <hr>
+          <h3>Create a new hashtag</h3>
+          <div class="form-group">
+            <%= label_tag 'hashtag[name]', "Hashtag Name: ", class: 'col-form-label' %>
+            <%= text_field_tag 'hashtag[name]', nil, class: 'form-control' %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= submit_tag "Submit", class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="newNetworkMembershipModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create Nework Membership</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <%= form_tag add_network_membership_to_bot_path, remote: true, authenticity_token: true, id: 'newNetworkMembershipModalForm' do %>
+        <div class="modal-body">
+          <%= hidden_field_tag 'bot_id' %>
+          <h3>Add existing nework to bot</h3>
+          <div class="form-group">
+            <%= label_tag 'network[id]', "Network:" %>
+            <%= select_tag 'network[id]', options_from_collection_for_select(Network.all, :id, :name), include_blank: true, class: 'form-control select2' %>
+          </div>
+          <hr>
+          <h3>Create a new network</h3>
+          <div class="form-group">
+            <%= label_tag 'network[name]', "Network Name: ", class: 'col-form-label' %>
+            <%= text_field_tag 'network[name]', nil, class: 'form-control' %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= submit_tag "Submit", class: 'btn btn-primary' %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
