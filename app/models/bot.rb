@@ -6,4 +6,8 @@ class Bot < ApplicationRecord
   belongs_to :type, foreign_type: :bot_type
   has_many :network_memberships
   has_many :networks, through: :network_memberships
+
+  def status_color(prefix: 'text')
+    type.status_color(prefix: prefix)
+  end
 end

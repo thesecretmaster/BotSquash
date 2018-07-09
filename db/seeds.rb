@@ -9,3 +9,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+Bot::Type.create([
+  {name: 'caught', severity: 0},
+  {name: 'suspected', severity: 1},
+  {name: 'reported', severity: 2},
+  {name: 'suspended', severity: 3},
+  {name: 'deleted', severity: 4}
+  ])

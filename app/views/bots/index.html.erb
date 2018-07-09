@@ -1,0 +1,99 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Bots</h1>
+
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Hashtags</th>
+      <th>Network IDs</th>
+      <th>Timeline</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bots.each do |bot| %>
+      <tr>
+        <td>
+          <!-- <%= link_to edit_bot_path(bot) do %>
+            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+          <% end %> -->
+          <i class="fas fa-pencil-alt" aria-hidden="true" data-toggle="modal" data-target="#editBotModal" data-username="<%= bot.username %>" data-type-id="<%= bot.type.id %>" data-bot-id="<%= bot.id %>"></i>
+          &nbsp;
+          <!-- <span class="<%= bot.status_color %>">
+            <%= link_to bot.username, bot_path(bot), class: bot.status_color %>
+          </span> -->
+          <span class="<%= bot.status_color %>" data-toggle="modal" data-target="#botInfoModal" data-username="<%= bot.username %>" data-type-id="<%= bot.type.id %>" data-bot-id="<%= bot.id %>"><%= bot.username %></span>
+          <small><i>(some status emojis)</i></small></td>
+        <td>
+          <span>
+            <%= raw(bot.hashtags.map { |ht| link_to "##{ht.name}", nw }.join(', ')) %>
+          </span>
+          <%= link_to '+add', new_hashtag_path(bot: bot) %>
+        </td>
+        <td>
+          <span>
+            <%= raw(bot.networks.map { |nw| link_to "##{nw.id}", nw }.join(', ')) %>
+          </span>
+          <%= link_to '+add', new_network_membership_path(bot: bot) %>
+        </td>
+        <td><%= link_to "actions", timeline_path(id: 1) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<div class="modal fade" id="editBotModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Bot</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <%= form_tag update_bot_path, remote: true, authenticity_token: true, id: 'editBotModalForm' do %>
+        <div class="modal-body">
+          <%= hidden_field_tag 'id' %>
+          <div class="form-group">
+            <%= label_tag 'bot[username]', "Username: ", class: 'col-form-label' %>
+            <%= text_field_tag 'bot[username]', nil, class: 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= label_tag 'bot[type_id]', "Bot" %>
+            <%= select_tag 'bot[type_id]', options_with_colors(Bot::Type.all, :id, :name){ |bot| bot.status_color(prefix: 'bg') }, class: 'form-control select2' %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= submit_tag "Submit", class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="botInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Bot Info</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Username: <span class="username"></span></p>
+        <!-- TODO: Fetch this data async -->
+        <p>Type: <span class="type"></span></p>
+        <p>Hashtags: <span class="hashtags"></span></p>
+        <p>Networks: <span class="networks"></span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
