@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_08_220331) do
+ActiveRecord::Schema.define(version: 2018_07_09_104430) do
 
   create_table "actions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "bot_id"
@@ -34,12 +34,10 @@ ActiveRecord::Schema.define(version: 2018_07_08_220331) do
   end
 
   create_table "bots", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
-    t.boolean "suspended"
-    t.boolean "watched"
-    t.boolean "success"
     t.text "username"
     t.text "notes"
     t.bigint "type_id"
+    t.text "twitter_username"
     t.index ["type_id"], name: "index_bots_on_type_id"
   end
 

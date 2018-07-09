@@ -9,6 +9,25 @@
 
 console.log('Hello World from Webpacker 1')
 
+window.twttr = (function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0],
+t = window.twttr || {};
+if (d.getElementById(id)) return t;
+js = d.createElement(s);
+js.id = id;
+js.src = "https://platform.twitter.com/widgets.js";
+fjs.parentNode.insertBefore(js, fjs);
+
+t._e = [];
+t.ready = function(f) {
+t._e.push(f);
+};
+
+return t;
+}(document, "script", "twitter-wjs"));
+
+console.log("Twitter loaded");
+
 $(document).on('show.bs.modal', '#editBotModal', function(e) {
   var ele = $(e.relatedTarget);
   var username = ele.data('username');
@@ -36,7 +55,15 @@ $(document).on('show.bs.modal', '#botInfoModal', function(e) {
   var ele = $(e.relatedTarget);
   var username = ele.data('username');
   var bot_id = ele.data('bot-id');
+  var twitter_username = ele.data('twttr');
   $("#botInfoModal .username").text(username);
   // TODO: Fetch further bot info async
   // Maybe a window from the twitter API
+  twttr.widgets.createTimeline(
+    {
+      sourceType: "profile",
+      screenName: twitter_username
+    },
+    document.getElementById("botInfoModal").getElementsByClassName("tweet-container")[0]
+  );
 })

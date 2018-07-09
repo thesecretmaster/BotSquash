@@ -24,7 +24,7 @@
           <!-- <span class="<%= bot.status_color %>">
             <%= link_to bot.username, bot_path(bot), class: bot.status_color %>
           </span> -->
-          <span class="<%= bot.status_color %>" data-toggle="modal" data-target="#botInfoModal" data-username="<%= bot.username %>" data-type-id="<%= bot.type.id %>" data-bot-id="<%= bot.id %>"><%= bot.username %></span>
+          <span class="<%= bot.status_color %>" data-toggle="modal" data-target="#botInfoModal" data-username="<%= bot.username %>" data-type-id="<%= bot.type.id %>" data-bot-id="<%= bot.id %>" data-twttr="<%= bot.twitter_username %>"><%= bot.username %></span>
           <small><i>(some status emojis)</i></small></td>
         <td>
           <span>
@@ -90,6 +90,8 @@
         <p>Type: <span class="type"></span></p>
         <p>Hashtags: <span class="hashtags"></span></p>
         <p>Networks: <span class="networks"></span></p>
+        <div class="tweet-container">
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

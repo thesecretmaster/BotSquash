@@ -36,7 +36,7 @@
               <li><%= link_to 'Edit account details', edit_user_registration_path %></li>
             </ul>
           </div>
-          <%= button_to 'New Bot', new_bot_path, class: 'btn btn-danger nav-item' %>
+          <%= button_to 'New Bot', new_bot_path, method: :get, class: 'btn btn-danger nav-item' %>
         <% else %>
           <%= link_to new_user_registration_path do %>
             <i class="fa fa-user-plus"></i> Sign up
