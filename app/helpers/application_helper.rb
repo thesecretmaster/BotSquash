@@ -1,11 +1,12 @@
 module ApplicationHelper
   # This should get neated to be consistant with number_ids_for
-  def options_with_colors(collection, m1, m2)
+  def options_with_colors(collection, m1, m2, **opts)
     raw(collection.map do |e|
       color = block_given? ? yield(e) : ''
       value_str = " value=\"#{sanitize(e.send(m1).to_s)}\""
       class_str = " class=\"#{sanitize(color)}\""
-      "<option#{value_str}#{class_str}>#{sanitize(e.send(m2).to_s)}</option>"
+      selected_str = opts[:selected].present? && e.send(m1) == opts[:selected] ? ' selected' : ''
+      "<option#{value_str}#{class_str}#{selected_str}>#{sanitize(e.send(m2).to_s)}</option>"
     end.join("\n"))
   end
 
