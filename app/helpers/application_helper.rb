@@ -15,6 +15,6 @@ module ApplicationHelper
     raw(collection.map do |i|
       data_string = data.merge(yield(i)).map { |k, v| " data-#{k}=\"#{v}\"" }.join('') if block_given?
       "<span#{sanitize(modal_string)}#{sanitize(data_string)}>##{sanitize(i.id.to_s)}</span>"
-    end.join(', '))
+    end.join(''))
   end
 end

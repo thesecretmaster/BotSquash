@@ -48,3 +48,13 @@
     }
   }
 }
+
+.id-list {
+  span::after {
+    content: ", ";
+  }
+
+  span:last-child::after {
+    content: "";
+  }
+}

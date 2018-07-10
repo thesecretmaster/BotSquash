@@ -30,8 +30,10 @@ $(document).on('show.bs.modal', '#editBotModal', function(e) {
 $(document).on('ajax:success', "#editBotModalForm", function(e, data, status, xhr){
   var username = $("#editBotModal form input[name=bot\\[username\\]]").val();
   var id = $("#editBotModal form input[name=id]").val();
-  // TODO: This should set color too
-  $("span[data-bot-id="+id+"]").text(username);
+  var span = $("td:nth-child(1) span[data-bot-id="+id+"]");
+  span.text(data.username);
+  span.removeClass(/(text-\w+)/i.exec(span[0].className)[1]).addClass(data.color_class);
+  $("#editBotModal").modal('hide');
 });
 
 $(document).on('show.bs.modal', '#botInfoModal', function(e) {
@@ -58,12 +60,23 @@ $(document).on('show.bs.modal', '#newHashtagModal', function(e) {
   $("#newHashtagModal form input[name=id]").val(bot_id);
 });
 
-// TODO: On form submission, add the network membership to the page
+$(document).on('ajax:success', "#newHashtagModalForm", function(e, data, status, xhr){
+  var newEle = $.parseHTML(data.elements);
+  $("td:nth-child(2) span.id-list").append(newEle);
+  $("#newHashtagModal").modal('hide');
+});
+
 $(document).on('show.bs.modal', '#newNetworkMembershipModal', function(e) {
   var ele = $(e.relatedTarget);
   var bot_id = ele.data('bot-id');
   console.log(bot_id);
   $("#newNetworkMembershipModal form input[name=id]").val(bot_id);
+});
+
+$(document).on('ajax:success', "#newNetworkMembershipModalForm", function(e, data, status, xhr){
+  var newEle = $.parseHTML(data.elements);
+  $("td:nth-child(3) span.id-list").append(newEle);
+  $("#newNetworkMembershipModal").modal('hide');
 });
 
 $(document).on('show.bs.modal', '#hashtagModal', function(e) {

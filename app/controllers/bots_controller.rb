@@ -61,21 +61,27 @@ class BotsController < ApplicationController
   end
 
   def add_hashtag
-    ht = if params[:hashtag][:id].present?
+    @hashtag = if params[:hashtag][:id].present?
            Hashtag.find(params[:hashtag][:id])
          else
            Hashtag.create(name: params[:hashtag][:name])
          end
-    @bot.hashtags << ht
+    @bot.hashtags << @hashtag
+    respond_to do |format|
+      format.json { render :hashtag, status: :ok }
+    end
   end
 
   def add_network
-    nw = if params[:network][:id].present?
-           Network.find(params[:nework][:id])
+    @network = if params[:network][:id].present?
+           Network.find(params[:network][:id])
          else
            Network.create(name: params[:network][:name])
          end
-    @bot.networks << nw
+    @bot.networks << @network
+    respond_to do |format|
+      format.json { render :network, status: :ok }
+    end
   end
 
   private

@@ -28,7 +28,7 @@
           <span class="<%= bot.status_color %>" data-toggle="modal" data-target="#botInfoModal" data-username="<%= bot.username %>" data-type-id="<%= bot.type.id %>" data-bot-id="<%= bot.id %>" data-twttr="<%= bot.twitter_username %>"><%= bot.username %></span>
           <small><i>(some status emojis)</i></small></td>
         <td>
-          <span>
+          <span class="id-list">
             <!-- <%= true || raw(bot.hashtags.map { |ht| link_to "##{ht.name}", ht }.join(', ')) %> -->
             <%= number_ids_for(bot.hashtags, modal_name: '#hashtagModal') { |ht| {id: ht.id, name: ht.name} } %>
           </span>
@@ -36,7 +36,7 @@
           <!-- <%= link_to '+add', new_hashtag_path(bot: bot) %> -->
         </td>
         <td>
-          <span>
+          <span class="id-list">
             <!-- <%= true || raw(bot.networks.map { |nw| link_to "##{nw.id}", nw }.join(', ')) %> -->
             <%= number_ids_for(bot.networks, modal_name: '#networkModal') { |nw| {id: nw.id, name: nw.name} } %>
           </span>

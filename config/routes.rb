@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     put ':id', to: 'bots#update'
     delete ':id', to: 'bots#destroy'
     post '', to: 'bots#create'
-    # These should move to their own controllers
+    # TODO: These should move to their own controllers
     post 'add_hashtag', to: 'bots#add_hashtag', as: :add_hashtag_to_bot
     post 'add_network', to: 'bots#add_network', as: :add_network_membership_to_bot
   end
