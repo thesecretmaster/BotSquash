@@ -17,3 +17,5 @@ Bot::Type.create([
                    { name: 'suspended', severity: 3 },
                    { name: 'deleted', severity: 4 }
                  ])
+
+User.create(username: 'admin', password: 'adminuser', email: 'user@admin.org')

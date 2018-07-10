@@ -15,7 +15,7 @@
   <tbody>
     <!-- Really, all of these should be links that turn into modals if JS is enabled. (Also, see comment near modals) -->
     <% @bots.each do |bot| %>
-      <tr>
+      <tr data-bot-id="<%= bot.id %>">
         <td>
           <!-- <%= link_to edit_bot_path(bot) do %>
             <i class="fas fa-pencil-alt" aria-hidden="true"></i>

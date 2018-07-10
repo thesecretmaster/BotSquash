@@ -1,10 +1,10 @@
 class TimelinesController < ApplicationController
-  before_action :set_timeline, only: %i[show edit update destroy]
+  before_action :set_action, only: %i[show edit update destroy]
 
   # GET /timelines
   # GET /timelines.json
   def index
-    @timelines = Timeline.all
+    @timelines = Action.all.group(:bot_id)
   end
 
   # GET /timelines/1
@@ -13,7 +13,7 @@ class TimelinesController < ApplicationController
 
   # GET /timelines/new
   def new
-    @timeline = Timeline.new
+    @action = Action.new
   end
 
   # GET /timelines/1/edit
@@ -22,15 +22,15 @@ class TimelinesController < ApplicationController
   # POST /timelines
   # POST /timelines.json
   def create
-    @timeline = Timeline.new(timeline_params)
+    @action = Action.new(action_params)
 
     respond_to do |format|
-      if @timeline.save
-        format.html { redirect_to @timeline, notice: 'Timeline was successfully created.' }
-        format.json { render :show, status: :created, location: @timeline }
+      if @action.save
+        format.html { redirect_to @action, notice: 'Action was successfully created.' }
+        format.json { render :show, status: :created, location: @action }
       else
         format.html { render :new }
-        format.json { render json: @timeline.errors, status: :unprocessable_entity }
+        format.json { render json: @action.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -39,12 +39,12 @@ class TimelinesController < ApplicationController
   # PATCH/PUT /timelines/1.json
   def update
     respond_to do |format|
-      if @timeline.update(timeline_params)
-        format.html { redirect_to @timeline, notice: 'Timeline was successfully updated.' }
-        format.json { render :show, status: :ok, location: @timeline }
+      if @action.update(action_params)
+        format.html { redirect_to @action, notice: 'Action was successfully updated.' }
+        format.json { render :show, status: :ok, location: @action }
       else
         format.html { render :edit }
-        format.json { render json: @timeline.errors, status: :unprocessable_entity }
+        format.json { render json: @action.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -52,7 +52,7 @@ class TimelinesController < ApplicationController
   # DELETE /timelines/1
   # DELETE /timelines/1.json
   def destroy
-    @timeline.destroy
+    @action.destroy
     respond_to do |format|
       format.html { redirect_to timelines_url, notice: 'Timeline was successfully destroyed.' }
       format.json { head :no_content }
@@ -62,12 +62,12 @@ class TimelinesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_timeline
-    @timeline = Timeline.find(params[:id])
+  def set_action
+    @action = Action.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def timeline_params
-    params.fetch(:timeline, {})
+  def action_params
+    params.fetch(:action, {})
   end
 end
