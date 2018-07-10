@@ -32,7 +32,17 @@ $(document).on('show.bs.modal', '#botInfoModal', function(e) {
   twttr.widgets.createTimeline({
     sourceType: "profile",
     screenName: twitter_username
-  }, document.getElementById("botInfoModal").getElementsByClassName("tweet-container")[0]);
+  }, document.getElementById("botInfoModal").getElementsByClassName("tweet-container")[0]).then(function(){
+    // This could be simpler maybe. If only I knew what handleUpdate really did...
+    window.requestAnimationFrame(function(){
+      $('#botInfoModal').modal('handleUpdate');console.log("done");
+    })
+  });
+});
+
+$(document).on('hidden.bs.modal', '#botInfoModal', function(e) {
+  // Could be more proformant as per here: https://stackoverflow.com/a/3450726
+  document.getElementById("botInfoModal").getElementsByClassName("tweet-container")[0].innerHTML = '';
 });
 
 $(document).on('show.bs.modal', '#newHashtagModal', function(e) {
