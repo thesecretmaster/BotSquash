@@ -60,7 +60,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <%= form_tag update_bot_path, remote: true, authenticity_token: true, id: 'editBotModalForm' do %>
+      <%= form_tag update_bot_path(format: :json), remote: true, authenticity_token: true, id: 'editBotModalForm' do %>
         <div class="modal-body">
           <%= hidden_field_tag 'id' %>
           <div class="form-group">

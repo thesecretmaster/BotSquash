@@ -41,7 +41,6 @@ class BotsController < ApplicationController
   def update
     respond_to do |format|
       if @bot.update(bot_params)
-        format.js {}
         format.html { redirect_to @bot, notice: 'Bot was successfully updated.' }
         format.json { render :show, status: :ok, location: @bot }
       else

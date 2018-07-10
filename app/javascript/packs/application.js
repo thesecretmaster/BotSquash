@@ -27,16 +27,10 @@ $(document).on('show.bs.modal', '#editBotModal', function(e) {
   $("#editBotModal form input[name=id]").val(bot_id);
 });
 
-$("#editBotModalForm").on('ajax:success', function(e, data, status, xhr){
+$(document).on('ajax:success', "#editBotModalForm", function(e, data, status, xhr){
   var username = $("#editBotModal form input[name=bot\\[username\\]]").val();
   var id = $("#editBotModal form input[name=id]").val();
-  $("span[data-bot-id="+id+"]").text(username);
-});
-
-// TODO: This function is wrong. It should be called as a callback to the form submission
-$(document).on('hide.bs.modal', '#editBotModal', function(e) {
-  var username = $("#editBotModal form input[name=bot\\[username\\]]").val();
-  var id = $("#editBotModal form input[name=id]").val();
+  // TODO: This should set color too
   $("span[data-bot-id="+id+"]").text(username);
 });
 
