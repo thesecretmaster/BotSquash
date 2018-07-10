@@ -1,6 +1,6 @@
 class BotsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_bot, only: %i[show edit update destroy]
+  before_action :set_bot, only: %i[show edit update destroy add_hashtag add_network]
 
   # GET /bots
   # GET /bots.json
@@ -59,6 +59,24 @@ class BotsController < ApplicationController
       format.html { redirect_to bots_url, notice: 'Bot was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def add_hashtag
+    ht = if params[:hashtag][:id].present?
+           Hashtag.find(params[:hashtag][:id])
+         else
+           Hashtag.create(name: params[:hashtag][:name])
+         end
+    @bot.hashtags << ht
+  end
+
+  def add_network
+    nw = if params[:network][:id].present?
+           Network.find(params[:nework][:id])
+         else
+           Network.create(name: params[:network][:name])
+         end
+    @bot.networks << nw
   end
 
   private
