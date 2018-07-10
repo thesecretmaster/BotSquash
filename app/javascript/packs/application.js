@@ -72,7 +72,7 @@ $(document).on('show.bs.modal', '#newHashtagModal', function(e) {
   var ele = $(e.relatedTarget);
   var bot_id = ele.data('bot-id');
   console.log(bot_id);
-  $("#newHashtagModal form input[name=bot_id]").val(bot_id);
+  $("#newHashtagModal form input[name=id]").val(bot_id);
 });
 
 // TODO: On form submission, add the network membership to the page
@@ -80,5 +80,23 @@ $(document).on('show.bs.modal', '#newNetworkMembershipModal', function(e) {
   var ele = $(e.relatedTarget);
   var bot_id = ele.data('bot-id');
   console.log(bot_id);
-  $("#newNetworkMembershipModal form input[name=bot_id]").val(bot_id);
+  $("#newNetworkMembershipModal form input[name=id]").val(bot_id);
+});
+
+$(document).on('show.bs.modal', '#hashtagModal', function(e) {
+  var ele = $(e.relatedTarget);
+  console.log($("#hashtagModal .id"));
+  var id = ele.data('id');
+  var name = ele.data('name');
+  $("#hashtagModal span.id").text(id);
+  $("#hashtagModal span.name").text(name);
+});
+
+$(document).on('show.bs.modal', '#networkModal', function(e) {
+  var ele = $(e.relatedTarget);
+  console.log(ele);
+  var id = ele.data('id');
+  var name = ele.data('name');
+  $("#networkModal span.id").text(id);
+  $("#networkModal span.name").text(name);
 });
