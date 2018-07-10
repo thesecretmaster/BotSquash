@@ -60,30 +60,6 @@ class BotsController < ApplicationController
     end
   end
 
-  def add_hashtag
-    @hashtag = if params[:hashtag][:id].present?
-           Hashtag.find(params[:hashtag][:id])
-         else
-           Hashtag.create(name: params[:hashtag][:name])
-         end
-    @bot.hashtags << @hashtag
-    respond_to do |format|
-      format.json { render :hashtag, status: :ok }
-    end
-  end
-
-  def add_network
-    @network = if params[:network][:id].present?
-           Network.find(params[:network][:id])
-         else
-           Network.create(name: params[:network][:name])
-         end
-    @bot.networks << @network
-    respond_to do |format|
-      format.json { render :network, status: :ok }
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.

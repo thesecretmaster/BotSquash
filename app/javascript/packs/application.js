@@ -4,6 +4,7 @@ import '../twitter.js';
 
 $(document).on('show.bs.modal', '#editBotModal', function(e) {
   var ele = $(e.relatedTarget);
+  $("#editBotModalForm")[0].reset();
   var username = ele.data('username');
   var type_id = ele.data('type-id');
   var bot_id = ele.data('bot-id');
@@ -37,12 +38,12 @@ $(document).on('show.bs.modal', '#botInfoModal', function(e) {
   );
 })
 
-// TODO: On form submission, add the hashtag to the page
 $(document).on('show.bs.modal', '#newHashtagModal', function(e) {
   var ele = $(e.relatedTarget);
+  $("#newHashtagModalForm")[0].reset();
   var bot_id = ele.data('bot-id');
   console.log(bot_id);
-  $("#newHashtagModal form input[name=id]").val(bot_id);
+  $("#newHashtagModal form input[name=bot\\[id\\]]").val(bot_id);
 });
 
 $(document).on('ajax:success', "#newHashtagModalForm", function(e, data, status, xhr){
@@ -53,9 +54,10 @@ $(document).on('ajax:success', "#newHashtagModalForm", function(e, data, status,
 
 $(document).on('show.bs.modal', '#newNetworkMembershipModal', function(e) {
   var ele = $(e.relatedTarget);
+  $("#newNetworkMembershipModalForm")[0].reset();
   var bot_id = ele.data('bot-id');
   console.log(bot_id);
-  $("#newNetworkMembershipModal form input[name=id]").val(bot_id);
+  $("#newNetworkMembershipModal form input[name=bot\\[id\\]]").val(bot_id);
 });
 
 $(document).on('ajax:success', "#newNetworkMembershipModalForm", function(e, data, status, xhr){

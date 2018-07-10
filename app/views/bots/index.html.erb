@@ -51,163 +51,34 @@
 
 <!-- Really, these modals should `render` from other pages -->
 
-<div class="modal fade" id="editBotModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Edit Bot</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <%= form_tag update_bot_path(format: :json), remote: true, authenticity_token: true, id: 'editBotModalForm' do %>
-        <div class="modal-body">
-          <%= hidden_field_tag 'id' %>
-          <div class="form-group">
-            <%= label_tag 'bot[username]', "Username: ", class: 'col-form-label' %>
-            <%= text_field_tag 'bot[username]', nil, class: 'form-control' %>
-          </div>
-          <div class="form-group">
-            <%= label_tag 'bot[type_id]', "Bot" %>
-            <%= select_tag 'bot[type_id]', options_with_colors(Bot::Type.all, :id, :name){ |bot| bot.status_color(prefix: 'bg') }, class: 'form-control select2' %>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <%= submit_tag "Submit", class: 'btn btn-primary' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
+<%= render 'modal', title: "Edit Bot", id: "editBotModal" do %>
+  <%= render 'form', form_options: {remote: true, authenticity_token: true, id: 'editBotModalForm'}, path: update_bot_path(format: :json), submit_btn: false %>
+<% end %>
 
-<div class="modal fade" id="botInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Bot Info</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Username: <span class="username"></span></p>
-        <!-- TODO: Fetch this data async -->
-        <p>Type: <span class="type"></span></p>
-        <p>Hashtags: <span class="hashtags"></span></p>
-        <p>Networks: <span class="networks"></span></p>
-        <div class="tweet-container">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
+<%= render 'modal', title: "Bot Info", id: "botInfoModal", submit_btn: false do %>
+  <p>Username: <span class="username"></span></p>
+  <!-- TODO: Fetch this data async -->
+  <p>Type: <span class="type"></span></p>
+  <p>Hashtags: <span class="hashtags"></span></p>
+  <p>Networks: <span class="networks"></span></p>
+  <div class="tweet-container">
   </div>
-</div>
+<% end %>
 
-<div class="modal fade" id="newHashtagModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Create Hashtag</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <%= form_tag add_hashtag_to_bot_path, remote: true, authenticity_token: true, id: 'newHashtagModalForm' do %>
-        <div class="modal-body">
-          <%= hidden_field_tag 'id' %>
-          <h3>Add existing hashtag to bot</h3>
-          <div class="form-group">
-            <%= label_tag 'hashtag[id]', "Hashtag:" %>
-            <%= select_tag 'hashtag[id]', options_from_collection_for_select(Hashtag.all, :id, :name), include_blank: true, class: 'form-control select2' %>
-          </div>
-          <hr>
-          <h3>Create a new hashtag</h3>
-          <div class="form-group">
-            <%= label_tag 'hashtag[name]', "Hashtag Name: ", class: 'col-form-label' %>
-            <%= text_field_tag 'hashtag[name]', nil, class: 'form-control' %>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <%= submit_tag "Submit", class: 'btn btn-primary' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
+<%= render 'modal', title: "Create Hashtag", id: "newHashtagModal" do %>
+  <%= render 'hashtags/form', form_options: {remote: true, authenticity_token: true, id: 'newHashtagModalForm'}, path: add_hashtag_to_bot_path(format: :json), submit_btn: false, can_add_existing: true %>
+<% end %>
 
-<div class="modal fade" id="newNetworkMembershipModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Create Nework Membership</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <%= form_tag add_network_membership_to_bot_path, remote: true, authenticity_token: true, id: 'newNetworkMembershipModalForm' do %>
-        <div class="modal-body">
-          <%= hidden_field_tag 'id' %>
-          <h3>Add existing nework to bot</h3>
-          <div class="form-group">
-            <%= label_tag 'network[id]', "Network:" %>
-            <%= select_tag 'network[id]', options_from_collection_for_select(Network.all, :id, :name), include_blank: true, class: 'form-control select2' %>
-          </div>
-          <hr>
-          <h3>Create a new network</h3>
-          <div class="form-group">
-            <%= label_tag 'network[name]', "Network Name: ", class: 'col-form-label' %>
-            <%= text_field_tag 'network[name]', nil, class: 'form-control' %>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <%= submit_tag "Submit", class: 'btn btn-primary' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
+<%= render 'modal', title: "Create Nework Membership", id: "newNetworkMembershipModal" do %>
+  <%= render 'networks/form', form_options: {remote: true, authenticity_token: true, id: 'newNetworkMembershipModalForm'}, path: add_network_to_bot_path(format: :json), submit_btn: false, can_add_existing: true %>
+<% end %>
 
-<div class="modal fade" id="hashtagModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Hashtag!</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Name: <span class="name"></span></p>
-        <p>Id: <span class="id"></span></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render 'modal', title: "Hashtag!", id: "hashtagModal", submit_btn: false do %>
+  <p>Name: <span class="name"></span></p>
+  <p>Id: <span class="id"></span></p>
+<% end %>
 
-<div class="modal fade" id="networkModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Network!</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Name: <span class="name"></span></p>
-        <p>Id: <span class="id"></span></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render 'modal', title: "Network!", id: "networkModal", submit_btn: false do %>
+  <p>Name: <span class="name"></span></p>
+  <p>Id: <span class="id"></span></p>
+<% end %>

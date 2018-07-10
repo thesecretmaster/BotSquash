@@ -1,27 +1,25 @@
-<%= form_with(model: bot, local: true) do |form| %>
-  <% if bot.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(bot.errors.count, "error") %> prohibited this bot from being saved:</h2>
+<% form_options ||= {} %>
+<% path_options ||= {} %>
+<% submit_btn = true if submit_btn == nil %>
+<% path ||= Bot.new %>
 
-      <ul>
-      <% bot.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= form_tag path, **form_options do %>
+  <!-- TODO: We should have some way to display errors here, like in rev b966817b2acb905be5fb66072e45440b1c5f3332. We should also display errors in the ajax calls in index.html.erb -->
+  <%= hidden_field_tag 'id', @bot.try(:id) %>
+
+  <div class="form-group">
+    <%= label_tag 'bot[username]', "Username: ", class: 'col-form-label' %>
+    <%= text_field_tag 'bot[username]', @bot.try(:username), class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag 'bot[type_id]', "Bot" %>
+    <%= select_tag 'bot[type_id]', options_with_colors(Bot::Type.all, :id, :name){ |bot| bot.status_color(prefix: 'bg') }, class: 'form-control select2' %>
+  </div>
+
+  <% if submit_btn %>
+    <div class="actions">
+      <%= submit_tag %>
     </div>
   <% end %>
-
-  <div class='field'>
-    <%= form.label :username %>
-    <%= form.text_field :username, class: 'form-control' %>
-  </div>
-
-  <div class='field'>
-    <%= form.label :type_id %>
-    <%= form.select :type_id, options_with_colors(Bot::Type.all, :id, :name){ |bot| bot.status_color(prefix: 'bg') }, {}, class: 'form-control select2' %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>

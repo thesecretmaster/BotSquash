@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   root to: 'bots#index'
 
   resources :timelines
+  resources :hashtags
+  resources :networks
 
   scope 'bots' do
     root to: 'bots#index', as: :bots
@@ -16,11 +18,10 @@ Rails.application.routes.draw do
     delete ':id', to: 'bots#destroy'
     post '', to: 'bots#create'
     # TODO: These should move to their own controllers
-    post 'add_hashtag', to: 'bots#add_hashtag', as: :add_hashtag_to_bot
-    post 'add_network', to: 'bots#add_network', as: :add_network_membership_to_bot
+    post 'add_hashtag', to: 'hashtags#add_hashtag_to_bot', as: :add_hashtag_to_bot
+    post 'add_network', to: 'networks#add_network_to_bot', as: :add_network_to_bot
   end
 
   # TODO: Stop cheating
   get '/no1', to: 'bots#index', as: :new_network_membership
-  get '/no2', to: 'bots#index', as: :new_hashtag
 end

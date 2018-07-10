@@ -1,0 +1,30 @@
+<% form_options ||= {} %>
+<% path_options ||= {} %>
+<% submit_btn = true if submit_btn == nil %>
+<% path ||= Network.new %>
+<% can_add_existing ||= false %>
+
+<%= form_tag path, **form_options do %>
+  <!-- TODO: See comment in bots/_form.html.erb -->
+  <%= hidden_field_tag 'bot[id]' %>
+
+  <% if can_add_existing %>
+    <div class="form-group">
+      <%= label_tag 'network[id]', "Network:" %>
+      <%= select_tag 'network[id]', options_from_collection_for_select(Network.all, :id, :name), include_blank: true, class: 'form-control select2' %>
+    </div>
+    <hr>
+    <h3>Create a new nework</h3>
+  <% end %>
+
+  <div class="form-group">
+    <%= label_tag 'network[name]', "Network Name: ", class: 'col-form-label' %>
+    <%= text_field_tag 'network[name]', nil, class: 'form-control' %>
+  </div>
+
+  <% if submit_btn %>
+    <div class="actions">
+      <%= submit_tag %>
+    </div>
+  <% end %>
+<% end %>
