@@ -1,6 +1,6 @@
 class BotsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_bot, only: %i[show edit update destroy add_hashtag add_network]
+  before_action :set_bot, only: %i[show edit update destroy add_hashtag add_network timeline]
 
   # GET /bots
   # GET /bots.json
@@ -23,7 +23,7 @@ class BotsController < ApplicationController
   # POST /bots
   # POST /bots.json
   def create
-    @bot = Bot.new(bot_params)
+    @bot = Bot.new(bot_params.merge(created_by: current_user))
 
     respond_to do |format|
       if @bot.save
@@ -40,13 +40,22 @@ class BotsController < ApplicationController
   # PATCH/PUT /bots/1.json
   def update
     respond_to do |format|
-      if @bot.update(bot_params)
+      new_status = Bot::Type.find(params[:bot][:type_id])
+      if @bot.change_status(new_status, user: current_user, update_params: bot_params)
         format.html { redirect_to @bot, notice: 'Bot was successfully updated.' }
         format.json { render :show, status: :ok, location: @bot }
       else
         format.html { render :edit }
         format.json { render json: @bot.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def timeline
+    @actions = @bot.actions.order(:created_at)
+    respond_to do |format|
+      format.html { render :timeline, status: :ok }
+      format.json { render :timeline, status: :ok }
     end
   end
 
@@ -69,6 +78,6 @@ class BotsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def bot_params
-    params.fetch(:bot).permit(:type_id, :username)
+    params.fetch(:bot).permit(:username, :type_id)
   end
 end

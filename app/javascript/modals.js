@@ -21,19 +21,25 @@ $(document).on('ajax:success', "#editBotModalForm", function(e, data){
 $(document).on('show.bs.modal', '#botInfoModal', function(e) {
   const ele = $(e.relatedTarget);
   const username = ele.data('username');
+  const type = ele.data('type');
   const bot_id = ele.data('bot-id');
   const twitter_username = ele.data('twttr');
   $("#botInfoModal .username").text(username);
+  $("#botInfoModal .type").text(type);
   // TODO: Fetch further bot info async
-  twttr.widgets.createTimeline({
-    sourceType: "profile",
-    screenName: twitter_username
-  }, document.getElementById("botInfoModal").getElementsByClassName("tweet-container")[0]).then(function(){
-    // This could be simpler maybe. If only I knew what handleUpdate really did...
-    window.requestAnimationFrame(function(){
-      $('#botInfoModal').modal('handleUpdate');console.log("done");
-    })
-  });
+  try {
+    twttr.widgets.createTimeline({
+      sourceType: "profile",
+      screenName: twitter_username
+    }, document.getElementById("botInfoModal").getElementsByClassName("tweet-container")[0]).then(function(){
+      // This could be simpler maybe. If only I knew what handleUpdate really did...
+      window.requestAnimationFrame(function(){
+        $('#botInfoModal').modal('handleUpdate');console.log("done");
+      })
+    });
+  } catch(err) {
+    console.log(err);
+  }
 });
 
 $(document).on('hidden.bs.modal', '#botInfoModal', function(e) {

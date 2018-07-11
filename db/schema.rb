@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_10_200726) do
+ActiveRecord::Schema.define(version: 2018_07_10_203658) do
 
   create_table "actions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "bot_id"
@@ -18,8 +18,10 @@ ActiveRecord::Schema.define(version: 2018_07_10_200726) do
     t.bigint "actionable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["actionable_type", "actionable_id"], name: "index_actions_on_actionable_type_and_actionable_id", length: { actionable_type: 191 }
     t.index ["bot_id"], name: "index_actions_on_bot_id"
+    t.index ["user_id"], name: "index_actions_on_user_id"
   end
 
   create_table "bot_hashtags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -44,6 +46,8 @@ ActiveRecord::Schema.define(version: 2018_07_10_200726) do
     t.text "twitter_username"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.index ["created_by_id"], name: "index_bots_on_created_by_id"
     t.index ["type_id"], name: "index_bots_on_type_id"
   end
 
@@ -92,6 +96,15 @@ ActiveRecord::Schema.define(version: 2018_07_10_200726) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
   end
 
+  create_table "status_changes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "old_type_id"
+    t.bigint "new_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["new_type_id"], name: "index_status_changes_on_new_type_id"
+    t.index ["old_type_id"], name: "index_status_changes_on_old_type_id"
+  end
+
   create_table "status_checks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -125,4 +138,8 @@ ActiveRecord::Schema.define(version: 2018_07_10_200726) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "actions", "users"
+  add_foreign_key "bots", "users", column: "created_by_id"
+  add_foreign_key "status_changes", "bot_types", column: "new_type_id"
+  add_foreign_key "status_changes", "bot_types", column: "old_type_id"
 end

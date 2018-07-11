@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Bots</h1>
 
 <table class='table'>
@@ -25,7 +23,7 @@
           <!-- <span class="<%= bot.status_color %>">
             <%= link_to bot.username, bot_path(bot), class: bot.status_color %>
           </span> -->
-          <span class="<%= bot.status_color %>" data-toggle="modal" data-target="#botInfoModal" data-username="<%= bot.username %>" data-type-id="<%= bot.type.id %>" data-bot-id="<%= bot.id %>" data-twttr="<%= bot.twitter_username %>"><%= bot.username %></span>
+          <span class="<%= bot.status_color %>" data-toggle="modal" data-target="#botInfoModal" data-username="<%= bot.username %>" data-type-id="<%= bot.type.id %>" data-type="<%= bot.type.name %>" data-bot-id="<%= bot.id %>" data-twttr="<%= bot.twitter_username %>"><%= bot.username %></span>
           <small><i>(some status emojis)</i></small></td>
         <td>
           <span class="id-list">
@@ -43,7 +41,10 @@
           <span data-toggle="modal" data-target="#newNetworkMembershipModal" data-bot-id="<%= bot.id %>">+add</span>
           <!-- <%= link_to '+add', new_network_membership_path(bot: bot) %> -->
         </td>
-        <td><%= link_to "actions", timeline_path(id: 1) %></td>
+        <td>
+          <!-- <%= link_to "actions", timeline_path(id: 1) %> -->
+          <span data-toggle="modal" data-target="#actionsModal" data-bot-id="<%= bot.id %>">actions</span>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -81,4 +82,9 @@
 <%= render 'modal', title: "Network!", id: "networkModal", submit_btn: false do %>
   <p>Name: <span class="name"></span></p>
   <p>Id: <span class="id"></span></p>
+<% end %>
+
+<%= render 'modal', title: "Actions!", id: "actionsModal", submit_btn: false do %>
+  <div class="actions">
+  </div>
 <% end %>
