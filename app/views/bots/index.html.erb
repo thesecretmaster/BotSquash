@@ -11,39 +11,35 @@
   </thead>
 
   <tbody>
-    <!-- Really, all of these should be links that turn into modals if JS is enabled. (Also, see comment near modals) -->
     <% @bots.each do |bot| %>
       <tr data-bot-id="<%= bot.id %>">
         <td>
-          <!-- <%= link_to edit_bot_path(bot) do %>
-            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-          <% end %> -->
-          <i class="fas fa-pencil-alt" aria-hidden="true" data-toggle="modal" data-target="#editBotModal" data-username="<%= bot.username %>" data-type-id="<%= bot.type.id %>" data-bot-id="<%= bot.id %>"></i>
+          <%= link_to edit_bot_path(bot), class: 'js-modal-trigger', data: { toggle: 'modal', target: '#editBotModal', username: bot.username,
+                                                                             type_id: bot.type_id, bot_id: bot.id } do %>
+            <i class="fas fa-pencil-alt"></i>
+          <% end %>
           &nbsp;
-          <!-- <span class="<%= bot.status_color %>">
-            <%= link_to bot.username, bot_path(bot), class: bot.status_color %>
-          </span> -->
-          <span class="<%= bot.status_color %>" data-toggle="modal" data-target="#botInfoModal" data-username="<%= bot.username %>" data-type-id="<%= bot.type.id %>" data-type="<%= bot.type.name %>" data-bot-id="<%= bot.id %>" data-twttr="<%= bot.twitter_username %>"><%= bot.username %></span>
-          <small><i>(some status emojis)</i></small></td>
+          <%= link_to bot.username, bot_path(bot), data: { toggle: 'modal', target: '#botInfoModal', username: bot.username, type_id: bot.type_id,
+                                                           type: bot.type.name, bot_id: bot.id, twttr: bot.twitter_username },
+                      class: "#{bot.status_color} js-modal-trigger" %>
         <td>
           <span class="id-list">
-            <!-- <%= true || raw(bot.hashtags.map { |ht| link_to "##{ht.name}", ht }.join(', ')) %> -->
             <%= number_ids_for(bot.hashtags, modal_name: '#hashtagModal') { |ht| {id: ht.id, name: ht.name} } %>
           </span>
-          <span data-toggle="modal" data-target="#newHashtagModal" data-bot-id="<%= bot.id %>">+add</span>
-          <!-- <%= link_to '+add', new_hashtag_path(bot: bot) %> -->
+          <%= link_to '+add', new_hashtag_path(bot: bot), data: { toggle: 'modal', target: '#newHashtagModal', bot_id: bot.id },
+                      class: 'js-modal-trigger' %>
         </td>
         <td>
           <span class="id-list">
             <!-- <%= true || raw(bot.networks.map { |nw| link_to "##{nw.id}", nw }.join(', ')) %> -->
             <%= number_ids_for(bot.networks, modal_name: '#networkModal') { |nw| {id: nw.id, name: nw.name} } %>
           </span>
-          <span data-toggle="modal" data-target="#newNetworkMembershipModal" data-bot-id="<%= bot.id %>">+add</span>
-          <!-- <%= link_to '+add', new_network_membership_path(bot: bot) %> -->
+          <%= link_to '+add', new_network_membership_path(bot: bot), data: { toggle: 'modal', target: '#newNetworkMembershipModal', bot_id: bot.id },
+              class: 'js-modal-trigger' %>
         </td>
         <td>
-          <!-- <%= link_to "actions", timeline_path(id: 1) %> -->
-          <span data-toggle="modal" data-target="#actionsModal" data-bot-id="<%= bot.id %>">actions</span>
+          <%= link_to "actions", bot_timeline_path(bot), data: { toggle: 'modal', target: '#actionsModal', bot_id: bot.id },
+                      class: 'js-modal-trigger' %>
         </td>
       </tr>
     <% end %>
@@ -53,7 +49,8 @@
 <!-- Really, these modals should `render` from other pages -->
 
 <%= render 'modal', title: "Edit Bot", id: "editBotModal" do %>
-  <%= render 'form', form_options: {remote: true, authenticity_token: true, id: 'editBotModalForm'}, path: update_bot_path(format: :json), submit_btn: false %>
+  <%= render 'form', form_options: { remote: true, authenticity_token: true, id: 'editBotModalForm' },
+             path: update_bot_path(format: :json), submit_btn: false %>
 <% end %>
 
 <%= render 'modal', title: "Bot Info", id: "botInfoModal", submit_btn: false do %>
@@ -67,11 +64,13 @@
 <% end %>
 
 <%= render 'modal', title: "Create Hashtag", id: "newHashtagModal" do %>
-  <%= render 'hashtags/form', form_options: {remote: true, authenticity_token: true, id: 'newHashtagModalForm'}, path: add_hashtag_to_bot_path(format: :json), submit_btn: false, can_add_existing: true %>
+  <%= render 'hashtags/form', form_options: { remote: true, authenticity_token: true, id: 'newHashtagModalForm' },
+             path: add_hashtag_to_bot_path(format: :json), submit_btn: false, can_add_existing: true %>
 <% end %>
 
 <%= render 'modal', title: "Create Nework Membership", id: "newNetworkMembershipModal" do %>
-  <%= render 'networks/form', form_options: {remote: true, authenticity_token: true, id: 'newNetworkMembershipModalForm'}, path: add_network_to_bot_path(format: :json), submit_btn: false, can_add_existing: true %>
+  <%= render 'networks/form', form_options: { remote: true, authenticity_token: true, id: 'newNetworkMembershipModalForm' },
+             path: add_network_to_bot_path(format: :json), submit_btn: false, can_add_existing: true %>
 <% end %>
 
 <%= render 'modal', title: "Hashtag!", id: "hashtagModal", submit_btn: false do %>

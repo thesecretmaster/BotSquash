@@ -1,9 +1,9 @@
 $(document).on('show.bs.modal', '#actionsModal', function(e) {
   const ele = $(e.relatedTarget);
   const bot_id = ele.data('bot-id');
-  const parent = $('#actionsModal .actions')[0];
+  const parent = $('#actionsModal').find('.actions')[0];
   // Grab an array of timeline events via AJAX
-  $.post("/bot/"+bot_id+"/timeline", function(data) {
+  $.post("/bots/"+bot_id+"/timeline", function(data) {
     const actions = data.actions;
     for (var i = 0; i < actions.length; i++) {
       render_action(actions[i], parent);
