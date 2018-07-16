@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     delete ':id', to: 'bots#destroy'
     post '', to: 'bots#create'
     get ':id/timeline', to: 'bots#timeline', as: :bot_timeline
+    post ':id/timeline', to: 'bots#timeline', as: :bot_timeline_modal
     # Should these two move to their own namespaces?
     post 'add_hashtag', to: 'hashtags#add_hashtag_to_bot', as: :add_hashtag_to_bot
     post 'add_network', to: 'networks#add_network_to_bot', as: :add_network_to_bot

@@ -1,6 +1,6 @@
 class BotsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_bot, only: %i[show edit update destroy add_hashtag add_network timeline]
+  before_action :set_bot, only: %i[show edit update destroy add_hashtag add_network timeline timeline_modal]
 
   # GET /bots
   # GET /bots.json
@@ -55,9 +55,15 @@ class BotsController < ApplicationController
     @actions = @bot.actions.order(:created_at)
     respond_to do |format|
       format.html { render :timeline, status: :ok }
-      format.json { render :timeline, status: :ok }
+      format.json { render 'bots/_timeline.json.jbuilder', status: :ok }
     end
   end
+
+  def timeline_modal
+    @actions = @bot.actions.order(:created_at)
+    render "bots/_timeline", layout: false
+  end
+
 
   # DELETE /bots/1
   # DELETE /bots/1.json

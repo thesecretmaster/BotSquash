@@ -1,17 +1,3 @@
 <h1>Timeline for <%= @bot.username %></h1>
 
-<p>
-  <i><%= @bot.created_by.username %>@<%= @bot.created_at %>: Created as type <%= @bot.initial_type.name %>.</i>
-</p>
-<% @actions.each do |action| %>
-  <% event = action.actionable %>
-  <p>
-    <% case event %>
-    <% when StatusChange %>
-      <% next if event.old_type.nil? %>
-      <i><%= action.user.username %>@<%= action.created_at %>: The type of this bot was changed from <%= event.old_type.name %> to <%= event.new_type.name %>.</i>
-    <% else %>
-      <i><%= action.user.username %>@<%= action.created_at %>: An unknown event occured. Here are some technical details: <%= event.inspect %>.</i>
-    <% end %>
-  </p>
-<% end %>
+<%= render 'timeline', bot: @bot, actions: @actions %>
