@@ -4,8 +4,8 @@
   <thead>
     <tr>
       <th>Username</th>
-      <th>Hashtags</th>
-      <th>Network IDs</th>
+      <th>Topics</th>
+      <th>Networks</th>
       <th>Timeline</th>
     </tr>
   </thead>
@@ -23,19 +23,20 @@
                                                            type: bot.type.name, bot_id: bot.id, twttr: bot.twitter_username },
                       class: "#{bot.status_color} js-modal-trigger" %>
         <td>
-          <span class="id-list">
-            <%= number_ids_for(bot.hashtags, modal_name: '#hashtagModal') { |ht| {id: ht.id, name: ht.name} } %>
-          </span>
-          <%= link_to '+add', new_hashtag_path(bot: bot), data: { toggle: 'modal', target: '#newHashtagModal', bot_id: bot.id },
-                      class: 'js-modal-trigger' %>
+          <% bot.hashtags.each do |ht| %>
+            <%= link_to ht.name, hashtag_path(ht) %>
+          <% end %>
+
+          <em>(<%= link_to '+add', new_hashtag_path(bot: bot), data: { toggle: 'modal', target: '#newHashtagModal', bot_id: bot.id },
+                           class: 'js-modal-trigger' %>)</em>
         </td>
         <td>
-          <span class="id-list">
-            <!-- <%= true || raw(bot.networks.map { |nw| link_to "##{nw.id}", nw }.join(', ')) %> -->
-            <%= number_ids_for(bot.networks, modal_name: '#networkModal') { |nw| {id: nw.id, name: nw.name} } %>
-          </span>
-          <%= link_to '+add', new_network_membership_path(bot: bot), data: { toggle: 'modal', target: '#newNetworkMembershipModal', bot_id: bot.id },
-              class: 'js-modal-trigger' %>
+          <% bot.networks.each do |nw| %>
+            <%= link_to nw.name, network_path(nw) %>
+          <% end %>
+
+          <em>(<%= link_to '+add', new_network_membership_path(bot: bot), data: { toggle: 'modal', target: '#newNetworkMembershipModal', bot_id: bot.id },
+                           class: 'js-modal-trigger' %>)</em>
         </td>
         <td>
           <%= link_to "actions", bot_timeline_path(bot), data: { toggle: 'modal', target: '#actionsModal', bot_id: bot.id },
@@ -48,12 +49,12 @@
 
 <!-- Really, these modals should `render` from other pages -->
 
-<%= render 'modal', title: "Edit Bot", id: "editBotModal" do %>
+<%= render 'modal', title: 'Edit Bot', id: 'editBotModal' do %>
   <%= render 'form', form_options: { remote: true, authenticity_token: true, id: 'editBotModalForm' },
              path: update_bot_path(format: :json), submit_btn: false %>
 <% end %>
 
-<%= render 'modal', title: "Bot Info", id: "botInfoModal", submit_btn: false do %>
+<%= render 'modal', title: 'Bot Info', id: 'botInfoModal', submit_btn: false do %>
   <p>Username: <span class="username"></span></p>
   <!-- TODO: Fetch this data async -->
   <p>Type: <span class="type"></span></p>
@@ -63,27 +64,17 @@
   </div>
 <% end %>
 
-<%= render 'modal', title: "Create Hashtag", id: "newHashtagModal" do %>
+<%= render 'modal', title: 'Add Topic', id: "newHashtagModal" do %>
   <%= render 'hashtags/form', form_options: { remote: true, authenticity_token: true, id: 'newHashtagModalForm' },
              path: add_hashtag_to_bot_path(format: :json), submit_btn: false, can_add_existing: true %>
 <% end %>
 
-<%= render 'modal', title: "Create Nework Membership", id: "newNetworkMembershipModal" do %>
+<%= render 'modal', title: 'Add Network Membership', id: "newNetworkMembershipModal" do %>
   <%= render 'networks/form', form_options: { remote: true, authenticity_token: true, id: 'newNetworkMembershipModalForm' },
              path: add_network_to_bot_path(format: :json), submit_btn: false, can_add_existing: true %>
 <% end %>
 
-<%= render 'modal', title: "Hashtag!", id: "hashtagModal", submit_btn: false do %>
-  <p>Name: <span class="name"></span></p>
-  <p>Id: <span class="id"></span></p>
-<% end %>
-
-<%= render 'modal', title: "Network!", id: "networkModal", submit_btn: false do %>
-  <p>Name: <span class="name"></span></p>
-  <p>Id: <span class="id"></span></p>
-<% end %>
-
-<%= render 'modal', title: "Actions!", id: "actionsModal", submit_btn: false do %>
+<%= render 'modal', title: 'Bot Timeline', id: "actionsModal", submit_btn: false do %>
   <div class="actions">
   </div>
 <% end %>

@@ -16,6 +16,17 @@
 
 @import 'variables';
 
+@mixin clearfix {
+  &:before, &:after {
+    content: ' ';
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
 .topbar {
   background: $primary;
   color: white;
@@ -61,5 +72,29 @@
 
   span:last-child::after {
     content: "";
+  }
+}
+
+.properties-table {
+  td {
+    padding: 0.5em;
+  }
+}
+
+.bordered-li {
+  @include clearfix;
+  border-bottom: 1px solid lighten($key, 85%);
+  padding: 1em;
+
+  &:first-of-type {
+    border-top: 1px solid lighten($key, 85%);
+  }
+
+  &.dbb {
+    border-bottom: 2px solid lighten($key, 80%);
+  }
+
+  &.ntb {
+    border-top: none;
   }
 }

@@ -1,9 +1,15 @@
-<p id="notice"><%= notice %></p>
+<h1>Network: <%= @network.name %></h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @network.name %>
-</p>
+<%= properties_table @network do
+  property :id, label: 'ID'
+  property :created_at, label: 'Created' do |v, _o|
+    "#{time_ago_in_words(v)} ago"
+  end
+end %>
 
-<%= link_to 'Edit', edit_network_path(@network) %> |
-<%= link_to 'Back', networks_path %>
+<h2>Bots in this network</h2>
+<% @network.bots.each do |b| %>
+    <div class="bordered-li">
+      <%= link_to b.username, bot_path(b) %>
+    </div>
+<% end %>

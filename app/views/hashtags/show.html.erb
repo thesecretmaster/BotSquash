@@ -1,9 +1,15 @@
-<p id="notice"><%= notice %></p>
+<h1>Topic: <%= @hashtag.name %></h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @hashtag.name %>
-</p>
+<%= properties_table @hashtag do
+  property :id, label: 'ID'
+  property :created_at, label: 'Created' do |v, _o|
+    "#{time_ago_in_words(v)} ago"
+  end
+end %>
 
-<%= link_to 'Edit', edit_hashtag_path(@hashtag) %> |
-<%= link_to 'Back', hashtags_path %>
+<h2>Bots involved in this topic</h2>
+<% @hashtag.bots.each do |b| %>
+  <div class="bordered-li">
+    <%= link_to b.username, bot_path(b) %>
+  </div>
+<% end %>
