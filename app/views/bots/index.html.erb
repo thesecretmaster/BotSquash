@@ -21,7 +21,8 @@
           &nbsp;
           <%= link_to bot.username, bot_path(bot), data: { toggle: 'modal', target: '#botInfoModal', username: bot.username, type_id: bot.type_id,
                                                            type: bot.type.name, bot_id: bot.id, twttr: bot.twitter_username },
-                      class: "#{bot.status_color} js-modal-trigger" %>
+                      class: "#{bot.status_color} js-modal-trigger", id: "bot-name-#{bot.id}" %>
+        </td>
         <td>
           <% bot.hashtags.each do |ht| %>
             <%= link_to ht.name, hashtag_path(ht) %>

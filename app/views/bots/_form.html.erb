@@ -24,6 +24,13 @@
                    class: 'form-control select2', include_blank: true %>
   </div><br/>
 
+  <div class="field">
+    <%= label_tag 'bot[notes]' do %>
+      <i class="far fa-comments"></i> Notes
+    <% end %><br/>
+    <%= text_area_tag 'bot[notes]', @bot.try(:notes), rows: 5, cols: 100, class: 'form-control' %>
+  </div><br/>
+
   <% if submit_btn %>
     <div class="actions">
       <button type="submit" class="btn btn-primary">

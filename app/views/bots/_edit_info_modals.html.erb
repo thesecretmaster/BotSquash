@@ -1,9 +1,9 @@
-<%= render 'modal', title: 'Edit Bot', id: 'editBotModal' do %>
+<%= render 'application/modal', title: 'Edit Bot', id: 'editBotModal' do %>
   <%= render 'bots/form', form_options: { remote: true, authenticity_token: true, id: 'editBotModalForm' },
              path: update_bot_path(format: :json), submit_btn: false %>
 <% end %>
 
-<%= render 'modal', title: 'Bot Info', id: 'botInfoModal', submit_btn: false do %>
+<%= render 'application/modal', title: 'Bot Info', id: 'botInfoModal', submit_btn: false do %>
   <p>Username: <span class="username"></span></p>
   <%# TODO: Fetch this data async %>
   <p>Type: <span class="type"></span></p>

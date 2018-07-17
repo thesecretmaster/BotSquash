@@ -1,5 +1,5 @@
 import {} from 'jquery-ujs';
-import 'typeahead.js'
+
 import '../form_polyfill.js';
 import '../twitter.js';
 import '../modals.js';

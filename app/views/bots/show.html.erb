@@ -1,4 +1,28 @@
-<p>Username: <%= @bot.username %></p>
+<h1>Bot: <%= @bot.username %></h1>
 
-<%= link_to 'Edit', edit_bot_path(@bot) %> |
-<%= link_to 'Back', bots_path %>
+<%= properties_table @bot do
+  property :id, label: 'ID'
+  property :created_at, label: 'Created' do |v, _o|
+    "#{time_ago_in_words(v)} ago"
+  end
+  property :created_by, label: 'Creator' do |v, _o|
+    v.username
+  end
+  property :type do |v, _o|
+    v.name
+  end
+end %>
+
+<h2>Involved in these topics</h2>
+<% @bot.hashtags.each do |ht| %>
+  <div class="bordered-li">
+    <%= link_to ht.name, hashtag_path(ht) %>
+  </div>
+<% end %>
+
+<h2>Part of these networks</h2>
+<% @bot.networks.each do |nw| %>
+  <div class="bordered-li">
+    <%= link_to nw.name, network_path(nw) %>
+  </div>
+<% end %>

@@ -1,20 +1,26 @@
 $.fn.modal.Constructor.prototype.enforceFocus = $.noop;
 
-$(document).on('show.bs.modal', '#editBotModal', function(e) {
+$(document).on('show.bs.modal', '#editBotModal', async (e) => {
   const ele = $(e.relatedTarget);
   $("#editBotModalForm")[0].reset();
-  const username = ele.data('username');
-  const type_id = ele.data('type-id');
-  const bot_id = ele.data('bot-id');
-  $("#editBotModal form input[name=bot\\[username\\]]").val(username);
-  $("#editBotModal form select[name=bot\\[type_id\\]]").val(type_id);
-  $("#editBotModal form input[name=id]").val(bot_id);
+  const typeId = ele.data('type-id');
+  const botId = ele.data('bot-id');
+  const botDataResponse = await fetch(`/bots/${botId}.json`, {
+    credentials: 'include'
+  });
+  const botData = await botDataResponse.json();
+
+  const modal = $("#editBotModal");
+  modal.find('form input[name=bot\\[username\\]]').val(botData.username);
+  modal.find('form select[name=bot\\[type_id\\]]').val(typeId);
+  modal.find('form textarea[name=bot\\[notes\\]]').val(botData.notes);
+  modal.find('form input[name=id]').val(botId);
 });
 
 $(document).on('ajax:success', "#editBotModalForm", function(e, data){
   const username = $("#editBotModal form input[name=bot\\[username\\]]").val();
   const id = $("#editBotModal form input[name=id]").val();
-  const span = $("td:nth-child(1) span[data-bot-id="+id+"]");
+  const span = $("#bot-name-" + id);
   span.text(data.username);
   span.removeClass(/(text-\w+)/i.exec(span[0].className)[1]).addClass(data.color_class);
   $("#editBotModal").modal('hide');
