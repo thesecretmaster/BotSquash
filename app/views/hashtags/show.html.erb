@@ -9,7 +9,7 @@ end %>
 
 <h2>Bots involved in this topic</h2>
 <% @hashtag.bots.each do |b| %>
-  <div class="bordered-li">
-    <%= link_to b.username, bot_path(b) %>
-  </div>
+  <%= render 'bots/bot', bot: b, include_modals: false %>
 <% end %>
+
+<%= render 'bots/edit_info_modals' %>

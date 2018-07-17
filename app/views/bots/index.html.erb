@@ -47,22 +47,9 @@
   </tbody>
 </table>
 
-<!-- Really, these modals should `render` from other pages -->
+<%# Really, these modals should `render` from other pages %>
 
-<%= render 'modal', title: 'Edit Bot', id: 'editBotModal' do %>
-  <%= render 'form', form_options: { remote: true, authenticity_token: true, id: 'editBotModalForm' },
-             path: update_bot_path(format: :json), submit_btn: false %>
-<% end %>
-
-<%= render 'modal', title: 'Bot Info', id: 'botInfoModal', submit_btn: false do %>
-  <p>Username: <span class="username"></span></p>
-  <!-- TODO: Fetch this data async -->
-  <p>Type: <span class="type"></span></p>
-  <p>Hashtags: <span class="hashtags"></span></p>
-  <p>Networks: <span class="networks"></span></p>
-  <div class="tweet-container">
-  </div>
-<% end %>
+<%= render 'bots/edit_info_modals' %>
 
 <%= render 'modal', title: 'Add Topic', id: "newHashtagModal" do %>
   <%= render 'hashtags/form', form_options: { remote: true, authenticity_token: true, id: 'newHashtagModalForm' },
