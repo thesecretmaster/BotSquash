@@ -45,6 +45,11 @@
 
     &.tb-right {
       width: 80%;
+
+      .dropdown {
+        left: unset;
+        right: 0;
+      }
     }
   }
 }
