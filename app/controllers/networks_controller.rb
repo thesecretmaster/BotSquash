@@ -72,6 +72,11 @@ class NetworksController < ApplicationController
     end
   end
 
+  def query
+    @networks = Network.where('name LIKE ?', "%#{params[:term]}%")
+    render json: { results: @networks }
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

@@ -1,3 +1,5 @@
+$.fn.modal.Constructor.prototype.enforceFocus = $.noop;
+
 $(document).on('show.bs.modal', '#editBotModal', function(e) {
   const ele = $(e.relatedTarget);
   $("#editBotModalForm")[0].reset();

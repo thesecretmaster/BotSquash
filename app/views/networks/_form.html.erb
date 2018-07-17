@@ -8,23 +8,20 @@
   <!-- TODO: See comment in bots/_form.html.erb -->
   <%= hidden_field_tag 'bot[id]' %>
 
-  <% if can_add_existing %>
-    <div class="form-group">
-      <%= label_tag 'network[id]', "Network:" %>
-      <%= select_tag 'network[id]', options_from_collection_for_select(Network.all, :id, :name), include_blank: true, class: 'form-control select2' %>
-    </div>
-    <hr>
-    <h3>Create a new nework</h3>
-  <% end %>
-
   <div class="form-group">
     <%= label_tag 'network[name]', "Network Name: ", class: 'col-form-label' %>
-    <%= text_field_tag 'network[name]', nil, class: 'form-control' %>
+    <%= select_tag 'network[name]', options_from_collection_for_select(Network.last(500), :id, :name), include_blank: true,
+                   class: 'form-control ta-network', tabindex: 'false' %>
   </div>
 
   <% if submit_btn %>
     <div class="actions">
-      <%= submit_tag %>
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add
+      </button>
+      <%= link_to :back, class: 'btn btn-danger' do %>
+          <i class="fas fa-times"></i> Cancel
+      <% end %>
     </div>
   <% end %>
 <% end %>

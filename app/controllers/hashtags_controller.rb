@@ -51,7 +51,7 @@ class HashtagsController < ApplicationController
 
   def add_hashtag_to_bot
     @bot = Bot.find(params[:bot][:id])
-    @hashtag = if params[:hashtag][:id].present?
+    @hashtag = if params[:hashtag][:id].present? && params[:hashtag][:id].match?(/^\d+$/)
                  Hashtag.find(params[:hashtag][:id])
                else
                  Hashtag.create(name: params[:hashtag][:name])
@@ -70,6 +70,11 @@ class HashtagsController < ApplicationController
       format.html { redirect_to hashtags_url, notice: 'Hashtag was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def query
+    @hashtags = Hashtag.where('name LIKE ?', "%#{params[:term]}%")
+    render json: { results: @hashtags }
   end
 
   private
