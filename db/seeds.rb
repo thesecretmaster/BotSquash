@@ -11,9 +11,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 Bot::Type.create([
-                   { name: 'caught', severity: 0 },
+                   { name: 'human', severity: 0 },
                    { name: 'suspected', severity: 1 },
-                   { name: 'reported', severity: 2 },
+                   { name: 'bad actor', severity: 1 },
+                   { name: 'bot', severity: 3 },
                    { name: 'suspended', severity: 3 },
                    { name: 'deleted', severity: 4 }
                  ])

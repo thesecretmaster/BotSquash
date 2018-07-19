@@ -5,7 +5,7 @@ class BotsController < ApplicationController
   # GET /bots
   # GET /bots.json
   def index
-    @bots = Bot.all.includes(:hashtags, :networks, :type)
+    @bots = Bot.all.includes(:hashtags, :networks, :type).order('bot_types.severity DESC')
   end
 
   # GET /bots/1

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     post '', to: 'bots#create'
     get ':id/timeline', to: 'bots#timeline', as: :bot_timeline
     post ':id/timeline', to: 'bots#timeline', as: :bot_timeline_modal
+    post ':bot_id/report', to: 'twitter#report', as: :twitter_report
   end
 
   scope 'hashtags' do

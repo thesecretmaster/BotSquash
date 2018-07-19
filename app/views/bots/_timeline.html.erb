@@ -11,6 +11,8 @@
     <% when StatusChange %>
       <% next if event.old_type.nil? %>
       <i><%= action.user.username %>@<%= action.created_at %>: The type of this bot was changed from <%= event.old_type.name %> to <%= event.new_type.name %>.</i>
+    <% when TwitterReport %>
+      <i><%= action.user.username %>@<%= action.created_at %>: This bot was reported to twitter.</i>
     <% else %>
       <i><%= action.user.username %>@<%= action.created_at %>: An unknown event occured. Here are some technical details: <%= event.inspect %>.</i>
     <% end %>

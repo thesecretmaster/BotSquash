@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_10_203658) do
+ActiveRecord::Schema.define(version: 2018_07_19_133717) do
 
   create_table "actions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "bot_id"
@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 2018_07_10_203658) do
     t.index ["actionable_type", "actionable_id"], name: "index_actions_on_actionable_type_and_actionable_id", length: { actionable_type: 191 }
     t.index ["bot_id"], name: "index_actions_on_bot_id"
     t.index ["user_id"], name: "index_actions_on_user_id"
+  end
+
+  create_table "bot_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "bot_id"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bot_id"], name: "index_bot_comments_on_bot_id"
+    t.index ["user_id"], name: "index_bot_comments_on_user_id"
   end
 
   create_table "bot_hashtags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -47,6 +57,7 @@ ActiveRecord::Schema.define(version: 2018_07_10_203658) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "created_by_id"
+    t.integer "twitter_report_count", default: 0, null: false
     t.index ["created_by_id"], name: "index_bots_on_created_by_id"
     t.index ["type_id"], name: "index_bots_on_type_id"
   end
@@ -110,6 +121,17 @@ ActiveRecord::Schema.define(version: 2018_07_10_203658) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "twitter_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "bot_id"
+    t.text "notes"
+    t.boolean "reported", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bot_id"], name: "index_twitter_reports_on_bot_id"
+    t.index ["user_id"], name: "index_twitter_reports_on_user_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -139,7 +161,11 @@ ActiveRecord::Schema.define(version: 2018_07_10_203658) do
   end
 
   add_foreign_key "actions", "users"
+  add_foreign_key "bot_comments", "bots"
+  add_foreign_key "bot_comments", "users"
   add_foreign_key "bots", "users", column: "created_by_id"
   add_foreign_key "status_changes", "bot_types", column: "new_type_id"
   add_foreign_key "status_changes", "bot_types", column: "old_type_id"
+  add_foreign_key "twitter_reports", "bots"
+  add_foreign_key "twitter_reports", "users"
 end
